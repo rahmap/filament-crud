@@ -13,10 +13,12 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class BlogResource extends Resource
@@ -37,8 +39,10 @@ class BlogResource extends Resource
 						    ->directory('blog/images')
 						    ->getUploadedFileNameForStorageUsing(
 						    fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
-							    ->prepend( getenv('APP_NAME') . '-'),
-					    )->required()
+							    ->prepend( getenv('APP_NAME') . '-' . substr(Str::uuid(), 0, 4) . '-'),
+					        )
+						    ->preserveFilenames()
+						    ->required()
 				    ])
 		    ]);
     }
@@ -50,7 +54,7 @@ class BlogResource extends Resource
 			    TextColumn::make('id'),
 			    TextColumn::make('title'),
 			    TextColumn::make('content'),
-			    TextColumn::make('image'),
+			    ImageColumn::make('image')->circular()
 		    ])
 		    ->filters([
 			    //

@@ -35,11 +35,21 @@ class BlogObserver
     }
 
     /**
+     * Handle the Blog "deleting" event.
+     */
+    public function deleting(Blog $blog): void
+    {
+		//
+    }
+	
+	/**
      * Handle the Blog "deleted" event.
      */
     public function deleted(Blog $blog): void
     {
-        //
+	    if (!is_null($blog->image) && Storage::disk('public')->exists($blog->image)) {
+		    Storage::disk('public')->delete($blog->image);
+	    }
     }
 
     /**
