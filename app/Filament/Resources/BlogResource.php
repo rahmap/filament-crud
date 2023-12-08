@@ -8,6 +8,7 @@ use App\Models\Blog;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -33,6 +34,9 @@ class BlogResource extends Resource
 		    ->schema([
 			    Section::make()
 				    ->schema([
+					    Select::make('category_id')
+						    ->relationship('category', 'name')
+					        ->native(false),
 					    TextInput::make('title')->required(),
 					    Textarea::make('content')->required(),
 					    FileUpload::make('image')
@@ -54,6 +58,7 @@ class BlogResource extends Resource
 			    TextColumn::make('id'),
 			    TextColumn::make('title'),
 			    TextColumn::make('content'),
+			    TextColumn::make('category.name'),
 			    ImageColumn::make('image')->circular()
 		    ])
 		    ->filters([
