@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Course extends Model
 {
-	protected $fillable = ['name'];
+	protected $fillable = ['name','slug'];
 	
 	public function teachers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	{

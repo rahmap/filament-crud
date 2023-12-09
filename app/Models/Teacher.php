@@ -26,10 +26,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Teacher extends Model
 {
-	protected $fillable = ['name'];
+	protected $fillable = ['name','photo'];
 	
 	public function courses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	{
-		return $this->belongsToMany(Course::class);
+		return $this->belongsToMany(Course::class)->withTimestamps();
 	}
 }
