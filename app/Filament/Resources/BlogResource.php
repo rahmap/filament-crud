@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BlogResource\Pages;
 use App\Filament\Resources\BlogResource\RelationManagers;
 use App\Models\Blog;
+use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
@@ -15,7 +16,10 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextInputColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -56,13 +60,18 @@ class BlogResource extends Resource
 	    return $table
 		    ->columns([
 			    TextColumn::make('id'),
-			    TextColumn::make('title'),
+			    TextInputColumn::make('title')->label('Judul'),
 			    TextColumn::make('content'),
-			    TextColumn::make('category.name'),
+			    SelectColumn::make('category_id')
+				    ->label('Category')
+				    ->options(Category::pluck('name','id')->toArray()),
 			    ImageColumn::make('image')->circular()
 		    ])
 		    ->filters([
-			    //
+			    SelectFilter::make('category_id')
+				    ->label('Category')
+				    ->options(Category::pluck('name','id')->toArray())
+			        ->multiple()
 		    ])
 		    ->actions([
 			    Tables\Actions\EditAction::make(),

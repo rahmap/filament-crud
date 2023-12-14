@@ -14,6 +14,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextInputColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -51,7 +53,7 @@ class CourseResource extends Resource
         return $table
             ->columns([
 	            TextColumn::make('id'),
-	            TextColumn::make('name')->label('Mata Pelajaran'),
+	            TextInputColumn::make('name')->label('Mata Pelajaran'),
 	            TextColumn::make('slug'),
 	            TextColumn::make('teachers_count')->counts('teachers')->label('Digunakan Guru')
             ])
